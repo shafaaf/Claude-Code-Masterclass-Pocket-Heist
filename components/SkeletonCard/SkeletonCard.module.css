@@ -1,0 +1,37 @@
+@reference "../../app/globals.css";
+
+.card {
+  @apply w-full max-w-2xl rounded-xl bg-light p-6 animate-pulse;
+}
+
+.header {
+  @apply flex items-center gap-4;
+}
+
+.avatar {
+  @apply size-16 shrink-0 rounded-full bg-lighter;
+}
+
+.headerLines {
+  @apply flex flex-1 flex-col gap-2;
+}
+
+.body {
+  @apply mt-6 flex flex-col gap-3;
+}
+
+.line {
+  @apply h-4 w-full rounded bg-lighter;
+}
+
+.lineWide {
+  @apply w-3/5;
+}
+
+.lineNarrow {
+  @apply w-2/5;
+}
+
+.lineShort {
+  @apply w-3/4;
+}

@@ -1,0 +1,5 @@
+@reference "../../app/globals.css";
+
+.siteFooter {
+  @apply fixed inset-x-0 bottom-0 z-10 bg-light px-2 py-3 text-center text-sm text-body;
+}
