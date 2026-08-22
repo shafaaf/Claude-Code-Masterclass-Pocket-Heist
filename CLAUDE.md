@@ -49,6 +49,16 @@ Both groups sit under the root `app/layout.tsx`, which sets metadata and imports
 
 **Tests**: Colocated under `tests/` mirroring the source structure (e.g. `tests/components/Navbar.test.tsx` tests `components/Navbar`), not colocated next to source files. Vitest config (`vitest.config.mts`) uses `vite-tsconfig-paths` so the `@/` alias works in tests, and `vitest.setup.ts` loads `@testing-library/jest-dom/vitest` matchers globally (`globals: true`, so `describe`/`it`/`expect` need no import).
 
+## Development Workflow
+
+To develop a new feature:
+
+1. Use the `/spec` skill to create a feature spec: `/spec "Your feature description"`. This generates a spec file in `_specs/` (see `_specs/template.md` for the structure), creates a branch `claude/feature/<feature_slug>`, and fills in the open questions.
+2. Claude plans the implementation based on the spec (typically via a Plan agent), writing a detailed plan to `_plans/<feature_slug>.md`.
+3. Implement the feature: write code, tests, and docs per the plan.
+4. Verify: lint, typecheck, and run the test suite to ensure everything works.
+5. Rebase onto `main` and fast-forward to merge (see **Git Flow** below).
+
 ## Git Flow
 
 - Each feature gets exactly one persistent branch: `claude/feature/<feature_slug>` (created by the `/spec` command), holding its spec, plan, and implementation together — don't create separate branches per phase.
