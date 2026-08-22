@@ -65,9 +65,8 @@ When implementing any library or framework-specific features, **always check the
 
 ## Git Flow
 
-- Each feature gets exactly one persistent branch: `claude/feature/<feature_slug>` (created by the `/spec` command), holding its spec, plan, and implementation together — don't create separate branches per phase.
-- If a worktree needs its own branch because `claude/feature/<feature_slug>` is already checked out elsewhere (e.g. in the main working copy), name it with a purpose suffix — `claude/feature/<feature_slug>-spec`, `-plan`, `-impl`.
-- Rebase throwaway branches back onto `claude/feature/<feature_slug>` and delete them as soon as their work is committed. Never leave a throwaway branch dangling.
-- Prefer keeping the main working copy checked out on `main` rather than a feature branch, so worktrees can check out `claude/feature/<feature_slug>` directly without needing a throwaway branch at all.
-- Use `git rebase`, not `git merge`, when combining branches — keep history linear rather than introducing merge commits.
+- No git worktrees. Work directly in the single main checkout.
+- `main` is the base branch. For a new feature, check out a new branch from `main` (e.g. `claude/feature/<feature_slug>` when created via `/spec`, or any descriptive name otherwise) and do all the work — spec, plan, implementation — on that one branch.
+- When the feature is done, rebase the branch onto `main` and fast-forward merge. Use `git rebase`, not `git merge`, when combining branches — keep history linear rather than introducing merge commits.
+- Don't create separate branches per phase of a feature, and don't leave throwaway branches dangling — clean them up once merged.
  

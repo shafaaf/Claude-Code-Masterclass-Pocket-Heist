@@ -43,5 +43,5 @@
 }
 
 .error {
-  @apply rounded-md bg-error bg-opacity-10 px-3 py-2 text-sm text-error;
+  @apply rounded-md bg-error/10 px-3 py-2 text-sm text-error;
 }
