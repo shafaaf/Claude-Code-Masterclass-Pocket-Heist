@@ -1,9 +1,11 @@
-export default function SignupPage() {
+import AuthForm from "@/components/AuthForm";
+
+export default function LoginPage() {
   return (
     <div className="center-content">
       <div className="page-content">
-        <h2 className="form-title">Log in to see and view your account</h2>
+        <AuthForm initialMode="login" />
       </div>
     </div>
-  )
+  );
 }
