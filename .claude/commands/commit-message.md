@@ -20,7 +20,7 @@ Only use the following emojis:
 - ✨ `feat:` - New feature
 - 🐛 `fix:` - Bug fix
 - 🔨 `refactor:` - Refactoring code
-- 📝 `docs:` - Documentation
+- 📝 `docs:` -D Documentation
 - 🎨 `style:` - Styling/formatting
 - ✅ `test:` - Tests
 - ⚡ `perf:` - Performance
