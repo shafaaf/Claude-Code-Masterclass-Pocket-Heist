@@ -29,7 +29,9 @@
 }
 
 .submitButton {
-  @apply block w-full mt-2 rounded-md bg-primary px-4 py-2 font-semibold text-dark transition-colors hover:bg-secondary;
+  @apply block w-full mt-2 px-4 py-2 font-semibold text-white transition-colors;
+  background: linear-gradient(90deg, #9810fa 0%, #e60076 100%);
+  border-radius: 10px;
 }
 
 .switchPrompt {

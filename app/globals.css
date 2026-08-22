@@ -1,25 +1,28 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
 @import "tailwindcss";
 
 /* theme colours */
 @theme {
-  --color-primary: #C27AFF;
-  --color-secondary: #FB64B6;
-  --color-dark: #030712;
-  --color-light: #0A101D;
-  --color-lighter: #101828;
-  --color-success: #05DF72;
-  --color-error: #FF6467;
-  --color-heading: white;
-  --color-body: #99A1AF;
-  --font-sans: 'Inter', sans-serif;
+  --color-primary: oklch(71% 0.24 290);
+  --color-secondary: oklch(71% 0.25 350);
+  --color-dark: oklch(3% 0 220);
+  --color-light: oklch(6% 0.01 260);
+  --color-lighter: oklch(9% 0.01 260);
+  --color-success: oklch(78% 0.23 145);
+  --color-error: oklch(60% 0.2 15);
+  --color-heading: oklch(100% 0 0);
+  --color-body: oklch(62% 0.05 260);
+  --font-sans: "Inter", sans-serif;
 }
 
 /* typography */
 body {
- @apply font-sans text-body bg-dark;
+  @apply font-sans text-body bg-dark;
 }
-h1, h2, h3, h4 {
+h1,
+h2,
+h3,
+h4 {
   @apply text-heading;
 }
 

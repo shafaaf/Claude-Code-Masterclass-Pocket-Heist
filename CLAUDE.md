@@ -59,6 +59,10 @@ To develop a new feature:
 4. Verify: lint, typecheck, and run the test suite to ensure everything works.
 5. Rebase onto `main` and fast-forward to merge (see **Git Flow** below).
 
+## Implementation Guidelines
+
+When implementing any library or framework-specific features, **always check the appropriate documentation using the Context7 MCP server before writing any code**. This ensures implementation aligns with current best practices and API contracts, rather than relying on potentially outdated training data.
+
 ## Git Flow
 
 - Each feature gets exactly one persistent branch: `claude/feature/<feature_slug>` (created by the `/spec` command), holding its spec, plan, and implementation together — don't create separate branches per phase.
@@ -66,3 +70,4 @@ To develop a new feature:
 - Rebase throwaway branches back onto `claude/feature/<feature_slug>` and delete them as soon as their work is committed. Never leave a throwaway branch dangling.
 - Prefer keeping the main working copy checked out on `main` rather than a feature branch, so worktrees can check out `claude/feature/<feature_slug>` directly without needing a throwaway branch at all.
 - Use `git rebase`, not `git merge`, when combining branches — keep history linear rather than introducing merge commits.
+ 
