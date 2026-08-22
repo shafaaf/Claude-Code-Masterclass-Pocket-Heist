@@ -49,12 +49,10 @@ Both groups sit under the root `app/layout.tsx`, which sets metadata and imports
 
 **Tests**: Colocated under `tests/` mirroring the source structure (e.g. `tests/components/Navbar.test.tsx` tests `components/Navbar`), not colocated next to source files. Vitest config (`vitest.config.mts`) uses `vite-tsconfig-paths` so the `@/` alias works in tests, and `vitest.setup.ts` loads `@testing-library/jest-dom/vitest` matchers globally (`globals: true`, so `describe`/`it`/`expect` need no import).
 
-## Git Worktree Conventions
+## Git Flow
 
-Each feature gets exactly one persistent branch: `claude/feature/<feature_slug>` (created by the `/spec` command), holding its spec, plan, and implementation together — don't create separate branches per phase.
-
-If a worktree needs its own branch because `claude/feature/<feature_slug>` is already checked out elsewhere (e.g. in the main working copy), name it with a purpose suffix — `claude/feature/<feature_slug>-spec`, `-plan`, `-impl` — and rebase it back onto `claude/feature/<feature_slug>` and delete it as soon as its work is committed. Never leave a throwaway branch dangling.
-
-Prefer keeping the main working copy checked out on `main` rather than a feature branch, so worktrees can check out `claude/feature/<feature_slug>` directly without needing a throwaway branch at all.
-
-**Use `git rebase`, not `git merge`, when combining branches** — keep history linear rather than introducing merge commits.
+- Each feature gets exactly one persistent branch: `claude/feature/<feature_slug>` (created by the `/spec` command), holding its spec, plan, and implementation together — don't create separate branches per phase.
+- If a worktree needs its own branch because `claude/feature/<feature_slug>` is already checked out elsewhere (e.g. in the main working copy), name it with a purpose suffix — `claude/feature/<feature_slug>-spec`, `-plan`, `-impl`.
+- Rebase throwaway branches back onto `claude/feature/<feature_slug>` and delete them as soon as their work is committed. Never leave a throwaway branch dangling.
+- Prefer keeping the main working copy checked out on `main` rather than a feature branch, so worktrees can check out `claude/feature/<feature_slug>` directly without needing a throwaway branch at all.
+- Use `git rebase`, not `git merge`, when combining branches — keep history linear rather than introducing merge commits.
