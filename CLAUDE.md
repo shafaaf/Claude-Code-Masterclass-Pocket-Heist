@@ -65,6 +65,7 @@ When implementing any library or framework-specific features, **always check the
 
 ## Git Flow
 
+- **Always use the `/commit-message` skill to generate commit messages** before creating any commits. This ensures consistent, high-quality messages across the codebase.
 - No git worktrees. Work directly in the single main checkout.
 - `main` is the base branch. For a new feature, check out a new branch from `main` (e.g. `claude/feature/<feature_slug>` when created via `/spec`, or any descriptive name otherwise) and do all the work — spec, plan, implementation — on that one branch.
 - When the feature is done, rebase the branch onto `main` and fast-forward merge. Use `git rebase`, not `git merge`, when combining branches — keep history linear rather than introducing merge commits.
