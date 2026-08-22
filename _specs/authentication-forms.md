@@ -42,9 +42,9 @@ Implement email and password input forms for the `/login` and `/signup` pages. B
 
 ## Open Questions
 
-- Should the form clear input values when switching modes, or preserve them?
-- Should both pages use the same component or separate implementations?
-- Should the console log include a timestamp or any other metadata?
+- Should the form clear input values when switching modes, or preserve them? Preserve
+- Should both pages use the same component or separate implementations? Same
+- Should the console log include a timestamp or any other metadata? Yes
 
 ## Testing Guidelines
 
