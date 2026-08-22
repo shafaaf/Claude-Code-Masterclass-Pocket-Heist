@@ -53,6 +53,8 @@ Both groups sit under the root `app/layout.tsx`, which sets metadata and imports
 
 Each feature gets exactly one persistent branch: `claude/feature/<feature_slug>` (created by the `/spec` command), holding its spec, plan, and implementation together — don't create separate branches per phase.
 
-If a worktree needs its own branch because `claude/feature/<feature_slug>` is already checked out elsewhere (e.g. in the main working copy), name it with a purpose suffix — `claude/feature/<feature_slug>-spec`, `-plan`, `-impl` — and merge it back into `claude/feature/<feature_slug>` and delete it as soon as its work is committed. Never leave a throwaway branch dangling.
+If a worktree needs its own branch because `claude/feature/<feature_slug>` is already checked out elsewhere (e.g. in the main working copy), name it with a purpose suffix — `claude/feature/<feature_slug>-spec`, `-plan`, `-impl` — and rebase it back onto `claude/feature/<feature_slug>` and delete it as soon as its work is committed. Never leave a throwaway branch dangling.
 
 Prefer keeping the main working copy checked out on `main` rather than a feature branch, so worktrees can check out `claude/feature/<feature_slug>` directly without needing a throwaway branch at all.
+
+**Use `git rebase`, not `git merge`, when combining branches** — keep history linear rather than introducing merge commits.
