@@ -1,7 +1,13 @@
 "use client";
 
 import { useId, useState, type FormEvent } from "react";
+import { useRouter } from "next/navigation";
 import { Eye, EyeOff } from "lucide-react";
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
+import { auth } from "@/lib/firebase";
 import styles from "./AuthForm.module.css";
 
 export type AuthMode = "login" | "signup";
@@ -40,24 +46,71 @@ const COPY: Record<
 };
 
 export default function AuthForm({ initialMode = "login" }: AuthFormProps) {
+  const router = useRouter();
   const [mode, setMode] = useState<AuthMode>(initialMode);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const id = useId();
   const emailId = `${id}-email`;
   const passwordId = `${id}-password`;
   const copy = COPY[mode];
 
-  function handleSubmit(e: FormEvent<HTMLFormElement>) {
+  function getErrorMessage(err: unknown): string {
+    if (
+      err &&
+      typeof err === "object" &&
+      "code" in err &&
+      typeof err.code === "string"
+    ) {
+      switch (err.code) {
+        case "auth/email-already-in-use":
+          return "Email is already registered.";
+        case "auth/invalid-email":
+          return "Please enter a valid email address.";
+        case "auth/weak-password":
+          return "Password must be at least 6 characters.";
+        case "auth/user-not-found":
+          return "No account found with this email.";
+        case "auth/wrong-password":
+          return "Incorrect password.";
+        case "auth/too-many-requests":
+          return "Too many failed attempts. Try again later.";
+        default:
+          return "Authentication failed. Please try again.";
+      }
+    }
+    return "An unexpected error occurred.";
+  }
+
+  async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    console.log("[AuthForm] submit", {
-      mode,
-      email,
-      password,
-      timestamp: new Date().toISOString(),
-    });
+    setError("");
+    setLoading(true);
+
+    try {
+      if (mode === "signup") {
+        await createUserWithEmailAndPassword(auth, email, password);
+      } else {
+        await signInWithEmailAndPassword(auth, email, password);
+      }
+      console.log("[AuthForm] submit", {
+        mode,
+        email,
+        password,
+        timestamp: new Date().toISOString(),
+      });
+      router.push("/heists");
+    } catch (err) {
+      const errorMessage = getErrorMessage(err);
+      setError(errorMessage);
+      console.error("[AuthForm] error", err);
+    } finally {
+      setLoading(false);
+    }
   }
 
   return (
@@ -75,6 +128,7 @@ export default function AuthForm({ initialMode = "login" }: AuthFormProps) {
           className={styles.input}
           value={email}
           onChange={(e) => setEmail(e.target.value)}
+          disabled={loading}
         />
       </div>
 
@@ -92,12 +146,14 @@ export default function AuthForm({ initialMode = "login" }: AuthFormProps) {
             className={styles.input}
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            disabled={loading}
           />
           <button
             type="button"
             className={styles.passwordToggle}
             aria-label={showPassword ? "Hide password" : "Show password"}
             onClick={() => setShowPassword((v) => !v)}
+            disabled={loading}
           >
             {showPassword ? (
               <EyeOff aria-hidden="true" size={18} />
@@ -108,8 +164,10 @@ export default function AuthForm({ initialMode = "login" }: AuthFormProps) {
         </div>
       </div>
 
-      <button type="submit" className={styles.submitButton}>
-        {copy.submitLabel}
+      {error && <div className={styles.error}>{error}</div>}
+
+      <button type="submit" className={styles.submitButton} disabled={loading}>
+        {loading ? "Loading..." : copy.submitLabel}
       </button>
 
       <p className={styles.switchPrompt}>
@@ -119,6 +177,7 @@ export default function AuthForm({ initialMode = "login" }: AuthFormProps) {
           aria-label={copy.switchAriaLabel}
           className={styles.switchButton}
           onClick={() => setMode(copy.switchTarget)}
+          disabled={loading}
         >
           {copy.switchLabel}
         </button>
