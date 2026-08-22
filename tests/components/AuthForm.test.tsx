@@ -26,8 +26,10 @@ describe("AuthForm", () => {
     const user = userEvent.setup();
     render(<AuthForm />);
 
-    const emailInput = screen.getByLabelText(/email/i);
-    const passwordInput = screen.getByLabelText(/password/i);
+    const emailInput = screen.getByLabelText(/email/i, { selector: "input" });
+    const passwordInput = screen.getByLabelText(/password/i, {
+      selector: "input",
+    });
 
     await user.type(emailInput, "jane@example.com");
     await user.type(passwordInput, "hunter2");
@@ -40,16 +42,19 @@ describe("AuthForm", () => {
     const user = userEvent.setup();
     render(<AuthForm />);
 
-    const passwordInput = screen.getByLabelText(/password/i);
+    const passwordInput = screen.getByLabelText(/password/i, {
+      selector: "input",
+    });
     expect(passwordInput).toHaveAttribute("type", "password");
 
     await user.click(screen.getByRole("button", { name: /show password/i }));
     expect(passwordInput).toHaveAttribute("type", "text");
 
-    // rapid repeated clicks
+    // rapid repeated clicks (even count, so visibility ends back where it started: shown)
     await user.click(screen.getByRole("button", { name: /hide password/i }));
     await user.click(screen.getByRole("button", { name: /show password/i }));
     await user.click(screen.getByRole("button", { name: /hide password/i }));
+    await user.click(screen.getByRole("button", { name: /show password/i }));
 
     expect(passwordInput).toHaveAttribute("type", "text");
     expect(
@@ -61,8 +66,14 @@ describe("AuthForm", () => {
     const user = userEvent.setup();
     render(<AuthForm initialMode="login" />);
 
-    await user.type(screen.getByLabelText(/email/i), "jane@example.com");
-    await user.type(screen.getByLabelText(/password/i), "hunter2");
+    await user.type(
+      screen.getByLabelText(/email/i, { selector: "input" }),
+      "jane@example.com",
+    );
+    await user.type(
+      screen.getByLabelText(/password/i, { selector: "input" }),
+      "hunter2",
+    );
 
     await user.click(
       screen.getByRole("button", { name: /switch to sign up mode/i }),
@@ -71,8 +82,12 @@ describe("AuthForm", () => {
     expect(
       screen.getByRole("heading", { name: /create an account/i }),
     ).toBeInTheDocument();
-    expect(screen.getByLabelText(/email/i)).toHaveValue("jane@example.com");
-    expect(screen.getByLabelText(/password/i)).toHaveValue("hunter2");
+    expect(screen.getByLabelText(/email/i, { selector: "input" })).toHaveValue(
+      "jane@example.com",
+    );
+    expect(
+      screen.getByLabelText(/password/i, { selector: "input" }),
+    ).toHaveValue("hunter2");
   });
 
   describe("submission logging", () => {
@@ -90,8 +105,14 @@ describe("AuthForm", () => {
       const user = userEvent.setup();
       render(<AuthForm initialMode="login" />);
 
-      await user.type(screen.getByLabelText(/email/i), "jane@example.com");
-      await user.type(screen.getByLabelText(/password/i), "hunter2");
+      await user.type(
+        screen.getByLabelText(/email/i, { selector: "input" }),
+        "jane@example.com",
+      );
+      await user.type(
+        screen.getByLabelText(/password/i, { selector: "input" }),
+        "hunter2",
+      );
       await user.click(screen.getByRole("button", { name: "Log in" }));
 
       expect(logSpy).toHaveBeenCalledTimes(1);
@@ -111,8 +132,14 @@ describe("AuthForm", () => {
       await user.click(
         screen.getByRole("button", { name: /switch to sign up mode/i }),
       );
-      await user.type(screen.getByLabelText(/email/i), "jane@example.com");
-      await user.type(screen.getByLabelText(/password/i), "hunter2");
+      await user.type(
+        screen.getByLabelText(/email/i, { selector: "input" }),
+        "jane@example.com",
+      );
+      await user.type(
+        screen.getByLabelText(/password/i, { selector: "input" }),
+        "hunter2",
+      );
       await user.click(screen.getByRole("button", { name: "Sign up" }));
 
       expect(logSpy).toHaveBeenCalledTimes(1);
