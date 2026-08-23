@@ -8,6 +8,7 @@ import {
   signInWithEmailAndPassword,
 } from "firebase/auth";
 import { auth } from "@/lib/firebase";
+import HudFrame from "@/components/HudFrame";
 import styles from "./AuthForm.module.css";
 
 export type AuthMode = "login" | "signup";
@@ -19,6 +20,7 @@ interface AuthFormProps {
 const COPY: Record<
   AuthMode,
   {
+    eyebrow: string;
     heading: string;
     submitLabel: string;
     switchPrompt: string;
@@ -28,6 +30,7 @@ const COPY: Record<
   }
 > = {
   login: {
+    eyebrow: "System Access",
     heading: "Log in to your account",
     submitLabel: "Log in",
     switchPrompt: "Don't have an account?",
@@ -36,6 +39,7 @@ const COPY: Record<
     switchTarget: "signup",
   },
   signup: {
+    eyebrow: "New Operative",
     heading: "Create an account",
     submitLabel: "Sign up",
     switchPrompt: "Already have an account?",
@@ -114,74 +118,81 @@ export default function AuthForm({ initialMode = "login" }: AuthFormProps) {
   }
 
   return (
-    <form className={styles.form} noValidate onSubmit={handleSubmit}>
-      <h2 className="form-title">{copy.heading}</h2>
+    <HudFrame className={styles.frame}>
+      <form className={styles.form} noValidate onSubmit={handleSubmit}>
+        <p className={`hud-label ${styles.eyebrow}`}>{copy.eyebrow}</p>
+        <h2 className="form-title">{copy.heading}</h2>
 
-      <div className={styles.field}>
-        <label htmlFor={emailId} className={styles.label}>
-          Email
-        </label>
-        <input
-          id={emailId}
-          type="email"
-          autoComplete="email"
-          className={styles.input}
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          disabled={loading}
-        />
-      </div>
-
-      <div className={styles.field}>
-        <label htmlFor={passwordId} className={styles.label}>
-          Password
-        </label>
-        <div className={styles.passwordWrapper}>
+        <div className={styles.field}>
+          <label htmlFor={emailId} className={styles.label}>
+            Email
+          </label>
           <input
-            id={passwordId}
-            type={showPassword ? "text" : "password"}
-            autoComplete={
-              mode === "login" ? "current-password" : "new-password"
-            }
+            id={emailId}
+            type="email"
+            autoComplete="email"
             className={styles.input}
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
             disabled={loading}
           />
-          <button
-            type="button"
-            className={styles.passwordToggle}
-            aria-label={showPassword ? "Hide password" : "Show password"}
-            onClick={() => setShowPassword((v) => !v)}
-            disabled={loading}
-          >
-            {showPassword ? (
-              <EyeOff aria-hidden="true" size={18} />
-            ) : (
-              <Eye aria-hidden="true" size={18} />
-            )}
-          </button>
         </div>
-      </div>
 
-      {error && <div className={styles.error}>{error}</div>}
+        <div className={styles.field}>
+          <label htmlFor={passwordId} className={styles.label}>
+            Password
+          </label>
+          <div className={styles.passwordWrapper}>
+            <input
+              id={passwordId}
+              type={showPassword ? "text" : "password"}
+              autoComplete={
+                mode === "login" ? "current-password" : "new-password"
+              }
+              className={styles.input}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              disabled={loading}
+            />
+            <button
+              type="button"
+              className={styles.passwordToggle}
+              aria-label={showPassword ? "Hide password" : "Show password"}
+              onClick={() => setShowPassword((v) => !v)}
+              disabled={loading}
+            >
+              {showPassword ? (
+                <EyeOff aria-hidden="true" size={18} />
+              ) : (
+                <Eye aria-hidden="true" size={18} />
+              )}
+            </button>
+          </div>
+        </div>
 
-      <button type="submit" className={styles.submitButton} disabled={loading}>
-        {loading ? "Loading..." : copy.submitLabel}
-      </button>
+        {error && <div className={styles.error}>{error}</div>}
 
-      <p className={styles.switchPrompt}>
-        {copy.switchPrompt}{" "}
         <button
-          type="button"
-          aria-label={copy.switchAriaLabel}
-          className={styles.switchButton}
-          onClick={() => setMode(copy.switchTarget)}
+          type="submit"
+          className={styles.submitButton}
           disabled={loading}
         >
-          {copy.switchLabel}
+          {loading ? "Loading..." : copy.submitLabel}
         </button>
-      </p>
-    </form>
+
+        <p className={styles.switchPrompt}>
+          {copy.switchPrompt}{" "}
+          <button
+            type="button"
+            aria-label={copy.switchAriaLabel}
+            className={styles.switchButton}
+            onClick={() => setMode(copy.switchTarget)}
+            disabled={loading}
+          >
+            {copy.switchLabel}
+          </button>
+        </p>
+      </form>
+    </HudFrame>
   );
 }

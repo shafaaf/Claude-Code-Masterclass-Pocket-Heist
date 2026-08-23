@@ -1,7 +1,16 @@
 @reference "../../app/globals.css";
 
+.frame {
+  @apply w-full max-w-md mx-auto;
+  padding: 2rem;
+}
+
 .form {
-  @apply flex flex-col gap-4 w-full max-w-md mx-auto;
+  @apply flex flex-col gap-4 w-full;
+}
+
+.eyebrow {
+  @apply text-center;
 }
 
 .field {
@@ -13,7 +22,7 @@
 }
 
 .input {
-  @apply w-full rounded-md border border-lighter bg-light px-3 py-2 text-heading placeholder:text-body focus:outline-none focus:ring-2 focus:ring-primary;
+  @apply w-full rounded border border-lighter bg-light px-3 py-2 text-heading placeholder:text-body focus:outline-none focus:ring-2 focus:ring-primary;
 }
 
 .passwordWrapper {
@@ -25,13 +34,18 @@
 }
 
 .passwordToggle {
-  @apply absolute right-2 text-body transition-colors hover:text-heading disabled:opacity-50 disabled:cursor-not-allowed;
+  @apply absolute right-2 text-body transition-colors hover:text-primary disabled:opacity-50 disabled:cursor-not-allowed;
 }
 
 .submitButton {
-  @apply block w-full mt-2 px-4 py-2 font-semibold text-white transition-colors disabled:opacity-50 disabled:cursor-not-allowed;
-  background: linear-gradient(90deg, #9810fa 0%, #e60076 100%);
-  border-radius: 10px;
+  @apply bg-primary block w-full mt-2 px-4 py-2 font-semibold text-dark transition-all disabled:opacity-50 disabled:cursor-not-allowed;
+  border-radius: 4px;
+}
+
+.submitButton:hover:not(:disabled) {
+  filter: brightness(1.1);
+  box-shadow: 0 0 24px
+    color-mix(in oklch, var(--color-primary) 45%, transparent);
 }
 
 .switchPrompt {

@@ -34,7 +34,7 @@ There is no typecheck script; use `npx tsc --noEmit` if needed.
 
 Both groups sit under the root `app/layout.tsx`, which sets metadata and imports `app/globals.css`.
 
-**Routing/auth note**: `app/(public)/page.tsx` (the `/` route) is intended purely as a splash/redirect page — it should route logged-in users to `/heists` and logged-out users to `/login`. This redirect logic is not yet implemented (see comment at top of that file).
+**Routing/auth note**: `/` is a normal landing page — it does not redirect based on auth state, and both logged-in and logged-out users can view it. `/login` and `/signup` use `useAuthRedirect` (`lib/useAuthRedirect.ts`) to push logged-in users to `/heists`; `AuthForm` also pushes to `/heists` immediately after a successful login/signup. The `(dashboard)` route group is guarded by `useRequireAuth` (`lib/useRequireAuth.ts`), called from `app/(dashboard)/layout.tsx`, which redirects logged-out users to `/login`.
 
 **Current state**: Most pages are unstyled/unimplemented placeholders (headings only) — this is an early scaffold. `components/Navbar` is the only real component so far.
 
@@ -70,4 +70,3 @@ When implementing any library or framework-specific features, **always check the
 - `main` is the base branch. For a new feature, check out a new branch from `main` (e.g. `claude/feature/<feature_slug>` when created via `/spec`, or any descriptive name otherwise) and do all the work — spec, plan, implementation — on that one branch.
 - When the feature is done, rebase the branch onto `main` and fast-forward merge. Use `git rebase`, not `git merge`, when combining branches — keep history linear rather than introducing merge commits.
 - Don't create separate branches per phase of a feature, and don't leave throwaway branches dangling — clean them up once merged.
- 

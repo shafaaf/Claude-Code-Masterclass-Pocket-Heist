@@ -1,18 +1,20 @@
-@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Space+Grotesk:wght@500..700&family=JetBrains+Mono:wght@400..600&display=swap");
 @import "tailwindcss";
 
-/* theme colours */
+/* theme colours — Stark tech / holographic HUD */
 @theme {
-  --color-primary: oklch(71% 0.24 290);
-  --color-secondary: oklch(71% 0.25 350);
-  --color-dark: oklch(3% 0 220);
-  --color-light: oklch(6% 0.01 260);
-  --color-lighter: oklch(9% 0.01 260);
-  --color-success: oklch(78% 0.23 145);
-  --color-error: oklch(60% 0.2 15);
-  --color-heading: oklch(100% 0 0);
-  --color-body: oklch(62% 0.05 260);
+  --color-primary: #4fd8ff;
+  --color-secondary: #1b8fb8;
+  --color-dark: #05080d;
+  --color-light: #0c1420;
+  --color-lighter: #101b2b;
+  --color-success: #35e6a0;
+  --color-error: #ff4d5e;
+  --color-heading: #eaf6ff;
+  --color-body: #7fa3bd;
   --font-sans: "Inter", sans-serif;
+  --font-display: "Space Grotesk", "Inter", sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
 }
 
 /* typography */
@@ -23,7 +25,7 @@ h1,
 h2,
 h3,
 h4 {
-  @apply text-heading;
+  @apply text-heading font-display;
 }
 
 /* generic layout styles */
@@ -49,4 +51,17 @@ svg.logo {
 }
 .btn-danger {
   @apply block mx-auto mt-4 rounded-md bg-error px-4 py-2 font-semibold text-dark transition-colors hover:bg-secondary;
+}
+
+/* HUD readout label — small tracked-out monospace eyebrow/status text */
+.hud-label {
+  @apply font-mono text-xs font-medium uppercase tracking-widest text-primary;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }

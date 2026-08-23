@@ -1,0 +1,244 @@
+@reference "../../app/globals.css";
+
+.container {
+  @apply bg-dark text-heading;
+}
+
+.hero {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  gap: 3rem;
+  padding: 4rem 2rem;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.heroContent {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.heading {
+  font-size: clamp(2.5rem, 6vw, 4rem);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+}
+
+.tagline {
+  @apply text-body;
+  font-size: clamp(1.125rem, 2vw, 1.375rem);
+  font-weight: 500;
+  max-width: 40ch;
+}
+
+.description {
+  @apply text-body;
+  font-size: 1rem;
+  max-width: 50ch;
+  line-height: 1.7;
+  margin-top: 0.5rem;
+}
+
+.ctaGroup {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  margin-top: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.ctaPrimary {
+  @apply bg-primary;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem 2rem;
+  color: var(--color-dark);
+  font-weight: 700;
+  font-size: 1rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  text-decoration: none;
+  transition:
+    transform 0.2s,
+    box-shadow 0.2s,
+    filter 0.2s;
+  box-shadow: 0 0 24px
+    color-mix(in oklch, var(--color-primary) 45%, transparent);
+}
+
+.ctaPrimary:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.1);
+  box-shadow: 0 0 36px
+    color-mix(in oklch, var(--color-primary) 65%, transparent);
+}
+
+.ctaPrimary:active {
+  transform: translateY(0);
+}
+
+.ctaSecondary {
+  @apply text-heading;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem 2rem;
+  background: transparent;
+  font-weight: 600;
+  font-size: 1rem;
+  border: 1px solid var(--color-lighter);
+  border-radius: 4px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.2s;
+}
+
+.ctaSecondary:hover {
+  @apply border-primary bg-light;
+}
+
+.heroVisual {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  min-height: 500px;
+}
+
+.gradientBox {
+  @apply bg-light;
+  width: 100%;
+  max-width: 400px;
+  aspect-ratio: 1;
+  border: 1px solid var(--color-lighter);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.gradientBox::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    115deg,
+    transparent 35%,
+    color-mix(in oklch, var(--color-primary) 18%, transparent) 50%,
+    transparent 65%
+  );
+  background-size: 250% 250%;
+  animation: hud-scan 6s ease-in-out infinite;
+}
+
+.gradientIcon {
+  @apply text-primary;
+  position: relative;
+  z-index: 1;
+  filter: drop-shadow(
+    0 0 18px color-mix(in oklch, var(--color-primary) 70%, transparent)
+  );
+}
+
+@keyframes hud-scan {
+  0% {
+    background-position: 0% 0%;
+  }
+  50% {
+    background-position: 100% 100%;
+  }
+  100% {
+    background-position: 0% 0%;
+  }
+}
+
+.features {
+  max-width: 1400px;
+  margin: 6rem auto;
+  padding: 0 2rem 4rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+}
+
+.feature {
+  @apply bg-light;
+  padding: 2rem;
+  border-radius: 4px;
+  transition:
+    background-color 0.3s,
+    transform 0.3s;
+}
+
+.feature:hover {
+  @apply bg-lighter;
+  transform: translateY(-4px);
+}
+
+.feature h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+}
+
+.feature p {
+  @apply text-body;
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+.featureIcon {
+  @apply text-primary;
+  margin-bottom: 1rem;
+}
+
+.footer {
+  @apply text-body;
+  margin-top: 4rem;
+  padding: 2rem;
+  text-align: center;
+  border-top: 1px solid var(--color-lighter);
+  font-size: 0.875rem;
+}
+
+.footer a {
+  @apply text-primary;
+  text-decoration: none;
+  border-bottom: 1px solid
+    color-mix(in oklch, var(--color-primary) 50%, transparent);
+  transition: color 0.2s;
+}
+
+.footer a:hover {
+  @apply text-heading;
+}
+
+@media (max-width: 768px) {
+  .hero {
+    grid-template-columns: 1fr;
+    min-height: auto;
+    padding: 3rem 1.5rem;
+    gap: 2rem;
+  }
+
+  .heroVisual {
+    min-height: 350px;
+  }
+
+  .gradientBox {
+    max-width: 300px;
+  }
+
+  .features {
+    grid-template-columns: 1fr;
+  }
+}

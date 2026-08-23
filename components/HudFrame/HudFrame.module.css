@@ -1,0 +1,49 @@
+@reference "../../app/globals.css";
+
+.hudFrame {
+  position: relative;
+}
+
+.hudFrame span {
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  opacity: 0.7;
+  pointer-events: none;
+  transition:
+    opacity 0.2s ease,
+    filter 0.2s ease;
+}
+
+.hudFrame:hover span {
+  opacity: 1;
+  filter: drop-shadow(0 0 4px var(--color-primary));
+}
+
+.cornerTl {
+  top: -1px;
+  left: -1px;
+  border-top: 2px solid var(--color-primary);
+  border-left: 2px solid var(--color-primary);
+}
+
+.cornerTr {
+  top: -1px;
+  right: -1px;
+  border-top: 2px solid var(--color-primary);
+  border-right: 2px solid var(--color-primary);
+}
+
+.cornerBl {
+  bottom: -1px;
+  left: -1px;
+  border-bottom: 2px solid var(--color-primary);
+  border-left: 2px solid var(--color-primary);
+}
+
+.cornerBr {
+  bottom: -1px;
+  right: -1px;
+  border-bottom: 2px solid var(--color-primary);
+  border-right: 2px solid var(--color-primary);
+}

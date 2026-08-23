@@ -2,6 +2,8 @@
 
 .siteNav {
   @apply bg-light px-2 py-4;
+  border-bottom: 1px solid var(--color-lighter);
+  box-shadow: 0 1px 0 color-mix(in oklch, var(--color-primary) 25%, transparent);
 }
 
 .siteNav nav {
@@ -10,6 +12,14 @@
 
 .siteNav h1 {
   @apply font-bold text-xl;
+}
+
+.siteNav ul {
+  @apply flex items-center gap-4;
+}
+
+.logoutButton {
+  @apply flex items-center gap-1.5 cursor-pointer border-none bg-transparent p-0 text-sm font-medium text-body transition-colors hover:text-heading;
 }
 
 svg.logo {
