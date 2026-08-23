@@ -4,7 +4,10 @@
   position: relative;
 }
 
-.hudFrame span {
+.cornerTl,
+.cornerTr,
+.cornerBl,
+.cornerBr {
   position: absolute;
   width: 16px;
   height: 16px;
@@ -15,7 +18,10 @@
     filter 0.2s ease;
 }
 
-.hudFrame:hover span {
+.hudFrame:hover .cornerTl,
+.hudFrame:hover .cornerTr,
+.hudFrame:hover .cornerBl,
+.hudFrame:hover .cornerBr {
   opacity: 1;
   filter: drop-shadow(0 0 4px var(--color-primary));
 }

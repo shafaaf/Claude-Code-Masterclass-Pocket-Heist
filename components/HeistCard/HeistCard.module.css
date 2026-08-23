@@ -1,0 +1,58 @@
+@reference "../../app/globals.css";
+
+.card {
+  @apply bg-light;
+  padding: 1.5rem;
+  border-radius: 4px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.header {
+  @apply flex items-start justify-between gap-3;
+}
+
+.title {
+  @apply text-heading font-display;
+  font-size: 1.125rem;
+  font-weight: 600;
+}
+
+.status {
+  @apply font-mono text-xs font-medium uppercase tracking-widest;
+  white-space: nowrap;
+  padding: 0.15rem 0.5rem;
+  border-radius: 2px;
+}
+
+.statusActive {
+  @apply text-primary;
+  border: 1px solid var(--color-primary);
+}
+
+.statusSuccess {
+  @apply text-success;
+  border: 1px solid var(--color-success);
+}
+
+.statusFailure {
+  @apply text-error;
+  border: 1px solid var(--color-error);
+}
+
+.description {
+  @apply text-body;
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+.assignee {
+  @apply flex items-center gap-2 mt-auto;
+}
+
+.assigneeName {
+  @apply text-heading;
+  font-size: 0.875rem;
+  font-weight: 600;
+}
