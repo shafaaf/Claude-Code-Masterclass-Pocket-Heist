@@ -4,7 +4,11 @@ import { useAuthRedirect } from "@/lib/useAuthRedirect";
 import AuthForm from "@/components/AuthForm";
 
 export default function SignupPage() {
-  useAuthRedirect();
+  const { user, checking } = useAuthRedirect();
+
+  if (checking || user) {
+    return null;
+  }
 
   return (
     <div className="center-content">
