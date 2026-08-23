@@ -1,0 +1,62 @@
+@reference "../../app/globals.css";
+
+.frame {
+  @apply w-full max-w-md mx-auto;
+  padding: 2rem;
+}
+
+.form {
+  @apply flex flex-col gap-4 w-full;
+}
+
+.field {
+  @apply flex flex-col gap-1;
+}
+
+.label {
+  @apply text-sm font-semibold text-heading;
+}
+
+.input,
+.textarea {
+  @apply w-full rounded border border-lighter bg-light px-3 py-2 text-heading placeholder:text-body focus:outline-none focus:ring-2 focus:ring-primary;
+}
+
+.textarea {
+  @apply min-h-24 resize-y;
+}
+
+.fieldError {
+  @apply text-sm text-error;
+}
+
+.error {
+  @apply rounded-md bg-error/10 px-3 py-2 text-sm text-error;
+}
+
+.status {
+  @apply text-center text-body;
+}
+
+.blocked {
+  @apply text-center text-heading;
+}
+
+.actions {
+  @apply flex gap-3 mt-2;
+}
+
+.submitButton {
+  @apply bg-primary flex-1 px-4 py-2 font-semibold text-dark transition-all disabled:opacity-50 disabled:cursor-not-allowed;
+  border-radius: 4px;
+}
+
+.submitButton:hover:not(:disabled) {
+  filter: brightness(1.1);
+  box-shadow: 0 0 24px
+    color-mix(in oklch, var(--color-primary) 45%, transparent);
+}
+
+.cancelButton {
+  @apply text-body px-4 py-2 font-semibold transition-colors hover:text-heading disabled:opacity-50 disabled:cursor-not-allowed;
+}
