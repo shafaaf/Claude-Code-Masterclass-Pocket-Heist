@@ -29,8 +29,12 @@ vi.mock("next/navigation", () => ({
 
 vi.mock("firebase/firestore", () => ({
   collection: vi.fn(() => ({ withConverter: vi.fn().mockReturnThis() })),
+  doc: vi.fn(() => ({})),
+  query: vi.fn(() => ({})),
+  where: vi.fn(() => ({})),
   getDocs: vi.fn(),
   addDoc: vi.fn(() => Promise.resolve({ id: "new-heist-id" })),
+  setDoc: vi.fn(() => Promise.resolve()),
   serverTimestamp: vi.fn(() => "SERVER_TIMESTAMP"),
 }));
 
@@ -46,6 +50,7 @@ const USERS = [
 function mockRoster(users: { id: string; codename: string }[]) {
   vi.mocked(getDocs).mockResolvedValue({
     docs: users.map((u) => ({ data: () => u })),
+    empty: users.length === 0,
   } as never);
 }
 
@@ -54,21 +59,41 @@ describe("HeistForm", () => {
     vi.clearAllMocks();
   });
 
-  it("shows a blocked message when the signed-in user has no codename on record", async () => {
+  it("shows the codename prompt when the signed-in user has no codename on record", async () => {
     mockRoster([{ id: "other-uid", codename: "Falcon" }]);
     render(<HeistForm />);
 
     expect(
-      await screen.findByText(/need a codename on file/i),
+      await screen.findByText(/choose your codename/i),
     ).toBeInTheDocument();
-    expect(screen.queryByLabelText(/title/i)).not.toBeInTheDocument();
+    expect(screen.queryByLabelText(/^title$/i)).not.toBeInTheDocument();
+  });
+
+  it("shows the real form once a codename is set via the prompt", async () => {
+    vi.mocked(getDocs)
+      .mockResolvedValueOnce({
+        docs: [{ data: () => ({ id: "other-uid", codename: "Falcon" }) }],
+      } as never) // initial roster fetch: current user has no codename
+      .mockResolvedValueOnce({ empty: true } as never) // uniqueness check inside CodenamePrompt
+      .mockResolvedValueOnce({
+        docs: USERS.map((u) => ({ data: () => u })),
+      } as never); // refetch after setting the codename
+
+    const user = userEvent.setup();
+    render(<HeistForm />);
+
+    await screen.findByText(/choose your codename/i);
+    await user.type(screen.getByLabelText(/codename/i), "Raven");
+    await user.click(screen.getByRole("button", { name: /set codename/i }));
+
+    expect(await screen.findByLabelText(/^title$/i)).toBeInTheDocument();
   });
 
   it("renders the form and excludes the current user from the assignee list", async () => {
     mockRoster(USERS);
     render(<HeistForm />);
 
-    await screen.findByLabelText(/title/i);
+    await screen.findByLabelText(/^title$/i);
     expect(screen.getByRole("option", { name: "Falcon" })).toBeInTheDocument();
     expect(
       screen.queryByRole("option", { name: "Raven" }),
@@ -80,7 +105,7 @@ describe("HeistForm", () => {
     const user = userEvent.setup();
     render(<HeistForm />);
 
-    await screen.findByLabelText(/title/i);
+    await screen.findByLabelText(/^title$/i);
     await user.click(screen.getByRole("button", { name: /create heist/i }));
 
     expect(await screen.findByText(/title is required/i)).toBeInTheDocument();
@@ -94,8 +119,8 @@ describe("HeistForm", () => {
     const user = userEvent.setup();
     render(<HeistForm />);
 
-    await screen.findByLabelText(/title/i);
-    await user.type(screen.getByLabelText(/title/i), "Steal the stapler");
+    await screen.findByLabelText(/^title$/i);
+    await user.type(screen.getByLabelText(/^title$/i), "Steal the stapler");
     await user.type(
       screen.getByLabelText(/description/i),
       "Classic Office Space move.",
@@ -127,8 +152,8 @@ describe("HeistForm", () => {
     const user = userEvent.setup();
     render(<HeistForm />);
 
-    await screen.findByLabelText(/title/i);
-    await user.type(screen.getByLabelText(/title/i), "Steal the stapler");
+    await screen.findByLabelText(/^title$/i);
+    await user.type(screen.getByLabelText(/^title$/i), "Steal the stapler");
     await user.type(screen.getByLabelText(/description/i), "Description.");
     await user.selectOptions(screen.getByLabelText(/assign to/i), "Falcon");
     await user.click(screen.getByRole("button", { name: /create heist/i }));
@@ -144,7 +169,7 @@ describe("HeistForm", () => {
     const user = userEvent.setup();
     render(<HeistForm />);
 
-    await screen.findByLabelText(/title/i);
+    await screen.findByLabelText(/^title$/i);
     await user.click(screen.getByRole("button", { name: /cancel/i }));
 
     expect(mockPush).toHaveBeenCalledWith("/heists");

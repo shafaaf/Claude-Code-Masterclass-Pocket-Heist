@@ -12,6 +12,7 @@ import {
   type CreateHeistInput,
 } from "@/types/firestore";
 import HudFrame from "@/components/HudFrame";
+import CodenamePrompt from "@/components/CodenamePrompt";
 import styles from "./HeistForm.module.css";
 
 const DEADLINE_MS = 48 * 60 * 60 * 1000;
@@ -29,7 +30,12 @@ interface FieldErrors {
 export default function HeistForm() {
   const router = useRouter();
   const { user } = useRequireAuth();
-  const { users, loading: usersLoading, error: usersError } = useUsers();
+  const {
+    users,
+    loading: usersLoading,
+    error: usersError,
+    refetch: refetchUsers,
+  } = useUsers();
 
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -101,21 +107,12 @@ export default function HeistForm() {
     );
   }
 
+  if (!user) {
+    return null;
+  }
+
   if (!currentUserDoc) {
-    return (
-      <HudFrame className={styles.frame}>
-        <p className={styles.blocked}>
-          You need a codename on file before you can create a heist.
-        </p>
-        <button
-          type="button"
-          className={styles.cancelButton}
-          onClick={handleCancel}
-        >
-          Back to heists
-        </button>
-      </HudFrame>
-    );
+    return <CodenamePrompt uid={user.uid} onSuccess={refetchUsers} />;
   }
 
   return (
