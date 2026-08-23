@@ -17,3 +17,7 @@ npm run dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) to view the app.
+
+## Acknowledgments
+
+Some code snippets are adapted from the tutorial author's reference repo: [iamshaunjp/Claude-Code-Masterclass](https://github.com/iamshaunjp/Claude-Code-Masterclass/tree/claude/snippets) (`claude/snippets` branch).
